@@ -10,48 +10,58 @@ export class Level2Component {
   public boardContent!: number[][];
   public playerNames!: string[];
 
-  constructor(){
-    this.playerNames = ["..", "blue", "red"];
+  constructor() {
+    this.playerNames = ['..', 'blue', 'red'];
     this.onRestart();
   }
 
   public drop(colIx: number) {
     console.log(`Coin dropped in column ${colIx}`);
+    if (this.getDropIndex(colIx) >= 0) {
+      this.boardContent[this.getDropIndex(colIx)][colIx] =
+        this.currentPlayerIndex;
+    }
     this.currentPlayerIndex = this.currentPlayerIndex === 1 ? 2 : 1;
   }
 
-  public getWinnerName(): string{
+  private getDropIndex(colIx: number) {
+    for (let i = this.boardContent.length - 1; i >= 0; i--) {
+      if (this.boardContent[i][colIx] === 0) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  public getWinnerName(): string {
     return this.playerNames[this.currentWinnerIndex];
   }
 
-  public getPlayerName(col: number, row: number): string{
+  public get winnerIndex(): number{
+    return this.currentWinnerIndex;
+  }
+
+  public getPlayerName(col: number, row: number): string {
     return this.playerNames[this.boardContent[row][col]];
   }
 
-  private playerIndexToClass(playerIx: number): string {
-    if (playerIx !== 0) {
-      return `occupied-${playerIx}`;
+  public getStyle(row: number, col: number): string {
+    if (this.boardContent[row][col] !== 0) {
+      return `occupied-${this.boardContent[row][col]}`;
     }
-
     return '';
   }
 
-  public getStyle(col: number, row: number): string{
-    return this.playerIndexToClass(this.boardContent[row][col]);
+  public onRestart(): void {
+    this.boardContent = [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ];
+    this.currentPlayerIndex = 1;
+    this.currentWinnerIndex = 0;
   }
-
-  public onRestart():void{
-    this.boardContent=[
-      [0,0,0,0],
-      [0,0,0,0],
-      [0,0,0,0],
-      [0,0,0,0]
-    ]
-    this.currentPlayerIndex=1;
-    this.currentWinnerIndex=0;
-  }
-
-
 
   // TODO: Complete this class by adding the appropriate code
   // At the end, this should become a working connect-four-game on a 4 x 4 board.

@@ -38,7 +38,7 @@
       <td><div class="coin"[class]="getStyle(2,0)"></div></td>
       <td><div class="coin"[class]="getStyle(2,1)"></div></td>
       <td><div class="coin"[class]="getStyle(2,2)"></div></td>
-      <td><div class="coin"[class]="getStyle(3,3)"></div></td>
+      <td><div class="coin"[class]="getStyle(2,3)"></div></td>
     </tr>
     <tr>
       <td><div class="coin"[class]="getStyle(3,0)"></div></td>
@@ -49,6 +49,6 @@
   </tbody>
 </table>
 
-<h2>The winner is ...</h2>
+<h2 [hidden]="winnerIndex === 0">The winner is ...</h2>
 
 <button (click)="onRestart()">Restart</button>
